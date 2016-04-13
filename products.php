@@ -1,15 +1,48 @@
 <?php
+/*
+    CST 336 - Internet Programming
+    Team Project
+    @uthors: Alfredo Cortez, Richard Isom
+    "products.php"
+    
+    This program displays data from a localized database onto a web page.
+
+*/
 session_start();
 include 'includes/database.php';
 $connection = getDatabaseConnection();
-global $cart;
-$cart = array();
+$_SESSION = [];
+$shoppingCart = new ItemList();
+$cartArray=array();
+
 /* 
 
 */
 $form=$_POST['form'];
-$form="shoe";
 var_dump($form);
+
+class ItemList{
+    public $itemId;
+    public $itemPrice;
+    public $itemHealthScore;
+    public $quanity;
+    public $totalPrice;
+    
+    public $cart = [];
+
+    public function make($itemId, $itemName, $itemPrice, $itemHealthScore, $quanity, $totalPrice) {
+        $this->itemId = $itemId;
+        $this->itemName = $itemName;
+        $this->itemPrice = $itemPrice;
+        $this->itemHealthScore= $itemHealthScore;
+        $this->quanity = $quanity;
+        $this->totalPrice = $totalPrice;
+    }
+  
+    public function addItem($itemId, $itemName, $itemPrice, $quanity){
+      array_push($cart, new ItemList($itemId, $itemName, $itemPrice, $itemHealthScore, $quanity, $totalPrice));
+    }
+}
 
 /**
  * Display all Products from database
@@ -24,7 +57,8 @@ function displayAllProducts($sortBy)
     if($sortBy == 'descending')
     { $sql = $sql . " DESC"; }
     $records = getDataBySQL($connection, $sql);
-    
+    //$items = new ItemList();
+    //$items->addItem($record['productId'], $record['productName'], $record['price'], $record['$quanity']);
         echo "<table border=1 width='600'>";
         echo "<tr>"; 
         echo "<td> Name </td>"; 
@@ -36,9 +70,9 @@ function displayAllProducts($sortBy)
           echo "<td>" . $record['productName'] . "</td>"; 
           echo "<td>" . $record['price'] . "</td>";
           echo "<td>" . $record['calories'] . "</td>";
-          echo "<td> <form action=" . $_SERVER['PHP_SELF'] . " method='post' />";
-          echo "<input type='hidden' name='productId' value='" . $record['productId'] . "'/>";
-          echo "<input type='button' name='addToCart' value='Add to cart'/></td>";
+          echo "<td> <form action='myCart.php' method='post' />";
+          echo "<input type='hidden' name='addToCart' value='" . $record['productId'] . "'/>";
+          echo "<input type='button' name='addToCartButton' value='add to cart'/></td>";
           echo "</tr>";
         } 
         echo "</table>";
@@ -57,6 +91,8 @@ function displayByPrice($sortBy)
     if($sortBy == 'descending')
     { $sql = $sql . " DESC"; }
     $records = getDataBySQL($connection, $sql);
+    //$items = new ItemList();
+    //$items->addItem($record['productId'], $record['productName'], $record['price'], $record['$quanity']);
     
          echo "<table border=1 width='600'>";
          echo "<table border=1 width='600'>";
@@ -70,9 +106,10 @@ function displayByPrice($sortBy)
           echo "<td>" . $record['productName'] . "</td>"; 
           echo "<td>" . $record['price'] . "</td>";
           echo "<td>" . $record['calories'] . "</td>";
-          echo "<td> <form action=" . $_SERVER['PHP_SELF'] . " method='post' />";
-          echo "<input type='hidden' name='productId' value='" . $record['productId'] . "'/>";
-          echo "<input type='button' name='addToCart' value='Add to cart'/></td>";
+          $cartArray=(array($record['productId']));
+          echo "<td> <form action='myCart.php' method='post' />";
+          echo "<input type='hidden' name='addToCart' value='" . $record['productId'] . "'/>";
+          echo "<input type='button' name='addToCartButton' value='Add to cart'/></td>";
           echo "</tr>";
         } 
         echo "</table>";
@@ -91,6 +128,8 @@ function displayByCalories($sortBy)
     if($sortBy == 'descending')
     { $sql = $sql . " DESC"; }
     $records = getDataBySQL($connection, $sql);
+    //$items = new ItemList();
+    //$items->addItem($record['productId'], $record['productName'], $record['price'], $record['$quanity']);
     
          echo "<table border=1 width='600'>";
          echo "<table border=1 width='600'>";
@@ -104,9 +143,9 @@ function displayByCalories($sortBy)
           echo "<td>" . $record['productName'] . "</td>"; 
           echo "<td>" . $record['price'] . "</td>"; 
           echo "<td>" . $record['calories'] . "</td>";
-          echo "<td> <form action=" . $_SERVER['PHP_SELF'] . " method='post'/>";
-          echo "<input type='hidden' name='productId' value='" . $record['productId'] . "'/>";
-          echo "<input type='button' name='addToCart' value='Add to cart'/></td>";
+          echo "<td> <form action='myCart.php' method='post' />";
+          echo "<input type='hidden' name='addToCart' value='" . $record['productId'] . "'/>";
+          echo "<input type='button' name='addToCartButton' value='Add to cart'/></td>";
           echo "</tr>";
         } 
         echo "</table>";
@@ -130,6 +169,7 @@ function addToCart($productId){
 <html>
 <head>
   <title>Products</title>
+  <link rel="stylesheet" type="text/css" href="assets/theme.css">
   <script src="//code.jquery.com/jquery-1.11.3.min.js"></script> 
 </head>
 
@@ -174,16 +214,11 @@ function addToCart($productId){
           displayAllProducts($sortBy);
         }
       }
-      if(isset($_POST['addToCart'])){
-        global $cart;
-        $id = $_POST['productId'];
-        echo $id;
-        $cart.push($id);
-        var_dump($cart);
-      }
-      var_dump($cart);
+      
+      
       ?>
     <div>
+      <?php echo $cartArray ?>
       <form action="myCart.php">
         <input type="submit" value="Go To Cart" />    
      </form>

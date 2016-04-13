@@ -25,6 +25,12 @@ function addItem(productName, price, quanity) {
     }
 }
 
+$(document).ready(function() {
+    $('#addToCart').click(function() {
+      foo($('#productId').val());
+    });
+});
+
 function addItem(productName, price) {
     console.log('cart item');
     for(var i = 0; i < cart.length; i++){

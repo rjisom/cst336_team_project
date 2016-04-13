@@ -1,14 +1,31 @@
-
 <?php 
-//$session_start();
+/*
+    CST 336 - Internet Programming
+    Team Project
+    @uthors: Alfredo Cortez, Richard Isom
+    "myCart.php"
+    
+    This program displays data from the user selected items from products.php.
+
+*/
+session_start();
+
 include 'includes/database.php';
-$cartItem = $_SESSION["productId"];
-var_dump($cartItem);
+
 $totalPrice;
 $totalHscore;
+$cartCount;
+$itemTemp = [];
+$cart=$_POST['$cartArray'];
 
-
-
+if(isset($_POST['addToCartButton'])){
+        $id = $_POST['addToCart'];
+        echo "<div>" .$id . "</div>";
+        array_push($itemTemp, $id);
+        echo 
+        var_dump($itemTemp);
+      }
+      var_dump($itemTemp);
 
 ?>
 <html>
@@ -31,29 +48,25 @@ $totalHscore;
         <th>Quantity</th>
         <th>Price</th>
     </tr>
-    <tr>
-        <td>
-           <?php echo $cartItem; ?> 
-        </td>
-        <td>
-            Output product name here
-        </td>
-        <td>Output type</td>
-        <td>Output Health Score</td>
-        <td>Output Quanitity</td>
-        <td> Output Price</td>
-        <td>
-        <form action="myCart.php">
-        <input type="submit" value="Update" />
-        <input type='number' id='addQuanity' value='1'><button onclick='cart.forEach(addQuanity)'>add to cart</button>
-        </form>
-            </td>
-    </tr>
-            
-     
-    
-</table>
+    <?php  for($row=0;$row<5;$row++){
+    echo '<tr>';
 
+    
+   
+        echo '<td>' . "pruductid" . '</td>' . '<td>' . "productname" . '</td>' . '<td>' . "type" . '</td>' .'<td>' . "health score" . '</td>' .'<td>' . "quantity" . '</td>' . '<td>' . "price" . '</td>' . '<td>' . '<form action="myCart.php">' . "<input type='number' id='addQuanity' value='1'>" .
+        '<input type="submit" value="Update" />' . 
+        '</form>'. '<td>';
+       
+
+
+    echo '</tr>';
+}
+    ?>
+</table>
+<?php 
+
+echo 'this is the cart' . $cart;
+?>
 
     <form action="products.php">
         <input type="submit" value="Return to Products Page" /> 

@@ -1,5 +1,15 @@
 <?php
 
+/*
+    CST 336 - Internet Programming
+    Team Project
+    @uthors: Alfredo Cortez, Richard Isom
+    "includes/database.php"
+    
+    This program is used as a reference for interacting with a MySQL database
+
+*/
+
     function getDatabaseConnection(){ 
         $servername = getenv('IP');
         $dbPort = 3306;
