@@ -4,6 +4,36 @@
 var cartItem = [];
 var cart = {};
 var item;
+    
+     
+    function writeTable(){
+        document.write("<div> <table id='productTable' border=1 width='600'>");
+        document.write("<tr> <td> Id </td>");
+        document.write("<td> Name </td>");
+        document.write("<td> Price </td>");
+        document.write("<td> Calories </td></tr>");
+        document.write("<?php displayAllProducts('descending');  ?>");
+        document.write("</table></div>");
+        
+    }
+    
+    function makeTable(){
+    document.write("<table id='productTable'><tr>" 
+    + "<th class='productId'> </th> <th class='productName'> </th>"
+    + "<th class='price'></th> <th class='calories'></th> </tr>"
+    + "</table>");
+    }
+    
+
+function addItem() {
+    if (confirm("Add item to cart?")) {
+    alert("Item Added");
+    }
+    else {
+    alert("Item Not Added");
+    }
+}
+
 
 function cartItem(productName, quanity, price) {
     this.productName = productName;
@@ -11,6 +41,7 @@ function cartItem(productName, quanity, price) {
     this.price = price;
 }
 
+/*
 function addItem(productName, price, quanity) {
     console.log('cart item');
     for(var i = 0; i < cart.length; i++){
@@ -23,6 +54,10 @@ function addItem(productName, price, quanity) {
         cart.push(newCartItem);
         }
     }
+}
+
+function findName(productName) { 
+    return cartItem.productName === productName;
 }
 
 $(document).ready(function() {
@@ -46,9 +81,7 @@ function addItem(productName, price) {
     }
 }
 
-function findName(productName) { 
-    return cartItem.productName === productName;
-}
+
 
 function addChartItem(productId, productName, product, price, calories, quanity) {
     console.log('f3 arg1: ' + arg1);
@@ -74,7 +107,7 @@ function addToCart(item,index,arr) {
     document.writeln("<div>" + item + "</div>");
     JSON.stringify(item);
 }
-
+*/
 var cartttt = [{
             color : "red",
             mileage : 58765,

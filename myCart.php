@@ -16,16 +16,9 @@ $totalPrice;
 $totalHscore;
 $cartCount;
 $itemTemp = [];
-$cart=$_POST['$cartArray'];
-
-if(isset($_POST['addToCartButton'])){
-        $id = $_POST['addToCart'];
-        echo "<div>" .$id . "</div>";
-        array_push($itemTemp, $id);
-        echo 
-        var_dump($itemTemp);
-      }
-      var_dump($itemTemp);
+$cart = $_SESSION['cartArray'];
+echo "CRT" . $cart;
+var_dump($cart);
 
 ?>
 <html>
@@ -63,10 +56,11 @@ if(isset($_POST['addToCartButton'])){
 }
     ?>
 </table>
+<div>
 <?php 
 
-echo 'this is the cart' . $cart;
 ?>
+</div>
 
     <form action="products.php">
         <input type="submit" value="Return to Products Page" /> 
