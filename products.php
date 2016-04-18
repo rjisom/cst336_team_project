@@ -14,16 +14,7 @@ $connection = getDatabaseConnection();
 global $cartArray;
 $cartArray = [];
 $cartArray = $_SESSION['cartArray'];
-//$shoppingCart = new ItemList();
 
-$productsArray=array();
-var_dump($cartArray);
-
-/* 
-
-*/
-$form=$_POST['productId'];
-var_dump($form);
 
 function passToCart(&$item, $itemId)
 {
@@ -75,37 +66,23 @@ function displayAllProducts($sortBy)
         echo "<td> Price </td>";
         echo "<td> Calories </td></tr>";
         echo "<tr>";
-        $i = 1;
         foreach ($records as $record) {
           echo "<tr id=" . $i . ">"; 
           echo "<td>" . $record['productId'] . "</td>"; 
           $id = $record['productId'];
-          //array_push($productsArray, $id);
+
           
           $productsArray['id'] = $record['productId'];
           $productsArray['name'] = $record['productName'];
-          //var_dump($productsArray);
+
           echo "<td>" . $record['productName'] . "</td>"; 
           echo "<td>" . $record['price'] . "</td>";
           echo "<td>" . $record['calories'] . "</td>";
-          //$item = new Item();
-          //$item->addItem($record['productId'], $record['productName'], $record['price']);
-          //var_dump($item);
-          //passToCart($records, $record['productID'] );
-          
+
           echo "<td> <form action='" . $_SERVER['PHP_SELF'] . "' method='post' >";
           echo "<input type='hidden' name='productId' value='".$record['productId'] . "'/>";
           echo "<input type='submit' name='addToCartButton' value='add' /></form> </td>";
-          
-          /*
-          echo "<td> <form action='' method='post' />";
-          echo "<input type='number' value ='1' name='value' id='" . $id . "' />";
-          echo "<button onclick='addItem(document.getElementById('txtValue').value)'/></button></td>";
-          */
-          //echo "<input type='hidden' name='item[]' value='" . $i . "'/>";
-          //echo "< id='" . $record['productId'] . "' button onclick='addItem()'>add to cart</button>" . '</td>';
           echo "</tr>";
-          $i++;
         } 
         echo "</table>";
 }
@@ -184,7 +161,7 @@ function displayByPrice($sortBy)
           echo "<td>" . $record['productName'] . "</td>"; 
           echo "<td>" . $record['price'] . "</td>";
           echo "<td>" . $record['calories'] . "</td>";
-          $cartArray = array($record['productId']);
+          //$cartArray = array($record['productId']);
           echo '<td>' . "<form action='confirmation.php' method='post' />";
           echo "<input type='hidden' name='item[]' value='" . $record['productId'] . "'/>";
           echo "<input type='submit' name='addToCartButton' value='Add to cart '/>" . '</td>';
@@ -282,6 +259,7 @@ function addToCart($productId){
       <br /><br />    
       <?php
       
+      // Checks if forms are used for sorting
       if(isset($_POST['filter'])){
         $filterBy = $_POST['dataFilter'];
         $sortBy = $_POST['sortBy'];
@@ -298,13 +276,13 @@ function addToCart($productId){
           displayAllProducts($sortBy);
         }
       }
+      
+      // Adds item to cart
       if(isset($_POST['addToCartButton'])){
         $id = $_POST['productId'];
         echo "<div>" . $id . "</div>";
         $cartArray[] =  $id;
         $_SESSION['cartArray'] = $cartArray;
-        //array_push($itemTemp, $id);
-        //var_dump($itemTemp);
       }
       var_dump($cartArray);
       

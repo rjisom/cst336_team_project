@@ -3,13 +3,7 @@
 session_start();
 global $cart;
 
-if(isset($_POST['addToCartButton'])){
-        $id = $_POST['productId'];
-        echo "<div>" . $id . "</div>";
-        //array_push($itemTemp, $id);
-        //var_dump($itemTemp);
-        echo "<a href='products.php' />";
-      }
+
       //var_dump($itemTemp);
 
 
